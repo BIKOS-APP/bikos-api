@@ -1,4 +1,3 @@
-const { default: knex } = require('knex');
 const connection = require('../database/connection');
 
 module.exports = {
@@ -6,16 +5,15 @@ module.exports = {
     async index(req, res, next){
         try {
 
-            const user_id = req.headers.authorization;
-            
             const {page = 1} = req.query;
-            
+
             const query = connection('advertisements')
             .join('users','users.id', '=', 'advertisements.user_id')
             .join('jobs','jobs.id', '=', 'advertisements.job_id')
             .limit(5)
             .offset((page - 1) * 5)
             .select([
+                'advertisements.id',
                 'advertisements.title',
                 'advertisements.description',
                 'advertisements.available',
@@ -26,13 +24,6 @@ module.exports = {
             ]);
 
             const countObj = connection('advertisements').count()
-
-            if(user_id){
-                query
-                .where('user_id', user_id);
-
-                countObj.where({user_id})
-            }
 
             const [count] = await countObj
             
@@ -67,7 +58,7 @@ module.exports = {
     },
 
     async delete(req, res){
-        const {id} = req.params;
+       
         const user_id = req.headers.authorization;
 
         const advertisement = await connection('advertisements')
