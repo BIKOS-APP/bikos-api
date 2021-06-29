@@ -25,8 +25,8 @@ exports.up = function(knex) {
     .createTable('advertisements', table => {
         table.increments().primary();
         table.string('title').notNullable();
-        table.string('description').unique().notNullable();
-        table.boolean('available').notNullable();
+        table.string('description').notNullable();
+        table.boolean('available').notNullable().defaultTo(true);
         table.timestamp('created_at').defaultTo(knex.fn.now());
         table.timestamp('updated_at').defaultTo(knex.fn.now());
         table.string('user_id').notNullable();
