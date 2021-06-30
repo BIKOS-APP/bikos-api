@@ -17,5 +17,22 @@ module.exports = {
 
         return res.json(user)
 
+    },
+
+    async update(req, res, next){
+        try {
+            const id = req.headers.authorization;
+            const {name, email, whatsapp} = req.body
+            
+            await connection('users')
+            .update({ name, email, whatsapp})
+            .where('id', id)
+
+            return res.send()
+
+        } catch (error) {
+            next(error)
+        }
+
     }
 }
