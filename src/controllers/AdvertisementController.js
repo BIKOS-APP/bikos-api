@@ -9,7 +9,7 @@ module.exports = {
 
             const query = connection('advertisements')
             .join('users','users.id', '=', 'advertisements.user_id')
-            .join('jobs','jobs.id', '=', 'advertisements.job_id')
+            .join('categories','categories.id', '=', 'advertisements.cat_id')
             .limit(5)
             .offset((page - 1) * 5)
             .select([
@@ -18,9 +18,8 @@ module.exports = {
                 'advertisements.description',
                 'advertisements.available',
                 'advertisements.created_at',
-                'advertisements.updated_at',
                 'users.name',
-	            'jobs.job_name'
+	            'categories.category'
             ]);
 
             const countObj = connection('advertisements').count()
@@ -41,14 +40,14 @@ module.exports = {
 
     async create(req, res, next){
         try {
-            const {title, description, job_id} = req.body
+            const {title, description, cat_id} = req.body
             const user_id = req.headers.authorization;
 
             await connection('advertisements').insert({
                 title,
                 description,
                 user_id,
-                job_id
+                cat_id
             })
             
             return res.status(201).send()

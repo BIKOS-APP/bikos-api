@@ -8,7 +8,8 @@ exports.seed = function(knex) {
         {category: 'Saúde'},
         {category: 'Eventos'},
         {category: 'Educação'},
-        {category: 'Manutenção'}
+        {category: 'Manutenção'},
+        {category: 'Serviços domésticos'}
       ]);
     });
 };
