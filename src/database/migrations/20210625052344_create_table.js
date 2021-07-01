@@ -14,15 +14,8 @@ exports.up = function(knex) {
         table.string('category').notNullable();
       })
 
-    .createTable('candidates', table => {
-      table.increments('id').primary();
-      table.string('user_id').notNullable();
-      table.foreign('user_id').references('id').inTable('users');
-      table.timestamp('application_date').defaultTo(knex.fn.now());
-    })
-
     .createTable('advertisements', table => {
-        table.increments().primary();
+        table.increments('id').primary();
         table.string('title').notNullable();
         table.string('description').notNullable();
         table.boolean('available').notNullable().defaultTo(true);
@@ -30,12 +23,18 @@ exports.up = function(knex) {
         table.string('user_id').notNullable();
         table.foreign('user_id').references('id').inTable('users');
         table.integer('cat_id').notNullable()
-            .references('id').inTable('categories');
-        table.integer('candidate_id').references('id').inTable('candidates')            
-                        
-      });
+            .references('id').inTable('categories');    
+      })
+      
+    .createTable('candidates', table => {
+      table.increments('id').primary();
+      table.string('user_id').notNullable();
+      table.foreign('user_id').references('id').inTable('users');
+      table.integer('ads_id').references('id').inTable('advertisements');
+      table.timestamp('application_date').defaultTo(knex.fn.now());
+    });
 }
 
 exports.down = function(knex) {
-    return knex.schema.dropTable('advertisements').dropTable('candidates').dropTable('users').dropTable('categories')
+    return knex.schema.dropTable('candidates').dropTable('advertisements').dropTable('users').dropTable('categories')
 }
