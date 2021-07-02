@@ -1,3 +1,4 @@
+const { default: knex } = require('knex');
 const connection = require('../database/connection')
 
 
@@ -24,9 +25,13 @@ module.exports = {
             const {ads_id} = req.params;
 
             const candidates = await connection('candidates')
+            .join('users','users.id', '=', 'candidates.user_id')
             .where({ads_id})
-            .select('*');
-            
+            .select([
+                'users.name',
+                'candidates.application_date'
+            ]);
+        
             return res.json(candidates)    
         } catch (error) {
             next(error)
@@ -36,9 +41,10 @@ module.exports = {
 
     async delete(req, res, next){
         try{ 
-        
+            
+            const {ads_id} = req.params;
+
             const user_id = req.headers.authorization;
-            const ads_id = req.params;
 
             const candidate = await connection('candidates')
             .where('ads_id', ads_id)
@@ -49,7 +55,7 @@ module.exports = {
                 return res.status(401).json({error: 'Operation not permitted.'})
             }
 
-            await connection('candidates').where('ads_id', ads_id);
+            await connection('candidates').where('ads_id', ads_id).andWhere('user_id', user_id).delete();
 
             return res.status(204).send();
         } catch(error){
