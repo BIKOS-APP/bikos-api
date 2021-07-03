@@ -30,7 +30,10 @@ routes.put('/users/profile/announcements/edit/:id', AdsUserProfileController.upd
 // //retorna todos anuncios
 routes.get('/announcements', AdvertisementsController.index)
 //retorna todos anuncios de um usuario
-routes.get('/announcements/:user_id', AdvertisementsController.find);
+routes.get('/announcements/user/:user_id', AdvertisementsController.findByUserId);
+routes.get('/announcements/category/:cat_id', AdvertisementsController.findByCategory);
+routes.get('/announcements/searchcity', AdvertisementsController.findByCity);
+
 
 // //retorna todos usuarios
 routes.get('/users', UserController.index);
