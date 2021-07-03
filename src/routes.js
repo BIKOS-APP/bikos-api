@@ -6,6 +6,7 @@ const AdvertisementsController = require('./controllers/AdvertisementController'
 const UserProfileController = require('./controllers/UserProfileController');
 const AdsUserProfileController = require('./controllers/AdsUserProfileController');
 const CandidateController = require('./controllers/CandidateController');
+const ProviderController = require('./controllers/ProviderController');
 
 const routes = express.Router();
 
@@ -26,6 +27,8 @@ routes.post('/users/profile/announcements/new', AdsUserProfileController.create)
 routes.delete('/users/profile/announcements/:id', AdsUserProfileController.delete)
 // //edita um anuncio
 routes.put('/users/profile/announcements/edit/:id', AdsUserProfileController.update)
+routes.put('/users/profile/announcements/:id/hire/provider/:provider', ProviderController.update)
+
 
 // //retorna todos anuncios
 routes.get('/announcements', AdvertisementsController.index)

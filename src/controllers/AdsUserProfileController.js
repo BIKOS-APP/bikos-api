@@ -2,10 +2,10 @@ const connection = require('../database/connection')
 
 module.exports = {
     async index(req, res){
-        const {user_id} = req.params;
+        const {announcer} = req.params;
     
         const advertisement = await connection('advertisements')
-        .where({user_id})
+        .where({announcer})
         .join('users','users.id', '=', 'advertisements.user_id')
         .join('categories','categories.id', '=', 'advertisements.cat_id')
         .select([
@@ -25,14 +25,14 @@ module.exports = {
     async create(req, res, next){
         try{
             const {title, description, city, state, cat_id} = req.body
-            const user_id = req.headers.authorization
+            const announcer = req.headers.authorization
 
             await connection('advertisements').insert({
                     title,
                     description,
                     city,
                     state,
-                    user_id,
+                    announcer,
                     cat_id
                 });
 
@@ -44,7 +44,7 @@ module.exports = {
 
     async delete(req, res){
        
-        const user_id = req.headers.authorization;
+        const announcer = req.headers.authorization;
         const {id} = req.params;
 
         const advertisement = await connection('advertisements')
@@ -52,7 +52,7 @@ module.exports = {
         .select('user_id')
         .first();
 
-        if (advertisement.user_id != user_id) {
+        if (advertisement.announcer != announcer) {
             return res.status(401).json({error: 'Operation not permitted.'})
         }
 
@@ -63,12 +63,12 @@ module.exports = {
 
     async update(req, res, next){
         try {
-            const user_id = req.headers.authorization;
+            const announcer = req.headers.authorization;
             const {title, description, job_id} = req.body
             const { id } = req.params
             
             await connection('advertisements')
-            .update({ title, description, user_id, job_id })
+            .update({ title, description, announcer, job_id })
             .where({ id })
 
             return res.send()

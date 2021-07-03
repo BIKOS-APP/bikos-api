@@ -9,7 +9,7 @@ module.exports = {
 
             const query = connection('advertisements')
             .where('advertisements.available', true)
-            .join('users','users.id', '=', 'advertisements.user_id')
+            .join('users','users.id', '=', 'advertisements.announcer')
             .join('categories','categories.id', '=', 'advertisements.cat_id')
             .limit(5)
             .offset((page - 1) * 5)
@@ -41,10 +41,10 @@ module.exports = {
     }, 
 
     async findByUserId(req, res){
-        const {user_id} = req.params;
+        const {announcer} = req.params;
     
         const advertisement = await connection('advertisements')
-        .where({user_id}).andWhere('advertisements.available', true)
+        .where({announcer}).andWhere('advertisements.available', true)
         .join('users','users.id', '=', 'advertisements.user_id')
         .join('categories','categories.id', '=', 'advertisements.cat_id')
         .select([
