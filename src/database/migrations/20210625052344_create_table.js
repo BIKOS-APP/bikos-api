@@ -13,13 +13,15 @@ exports.up = function(knex) {
         table.increments('id').primary();
         table.string('category').notNullable();
       })
-
+      
     .createTable('advertisements', table => {
         table.increments('id').primary();
         table.string('title').notNullable();
         table.string('description').notNullable();
         table.boolean('available').notNullable().defaultTo(true);
         table.timestamp('created_at').defaultTo(knex.fn.now());
+        table.string('city').notNullable();
+        table.string('state').notNullable();
         table.string('user_id').notNullable();
         table.foreign('user_id').references('id').inTable('users');
         table.integer('cat_id').notNullable()

@@ -16,6 +16,8 @@ module.exports = {
                 'advertisements.id',
                 'advertisements.title',
                 'advertisements.description',
+                'advertisements.city',
+                'advertisements.state',
                 'advertisements.available',
                 'advertisements.created_at',
                 'users.name',
@@ -48,8 +50,12 @@ module.exports = {
             'advertisements.id',
             'advertisements.title',
             'advertisements.description',
+            'advertisements.city',
+            'advertisements.state',
             'advertisements.available',
             'advertisements.created_at',
+            'advertisements.city',
+            'advertisements.state',
             'categories.category'
         ]);
 

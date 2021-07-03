@@ -22,10 +22,12 @@
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "cep-promise": "^4.1.1",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "express": "^4.17.1",
     "knex": "^0.95.6",
+    "node-correios": "^3.0.2",
     "pg": "^8.6.0"
   }
 }

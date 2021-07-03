@@ -12,6 +12,8 @@ module.exports = {
             'advertisements.id',
             'advertisements.title',
             'advertisements.description',
+            'advertisements.city',
+            'advertisements.state',
             'advertisements.available',
             'advertisements.created_at',
             'categories.category'
@@ -21,19 +23,21 @@ module.exports = {
     },
 
     async create(req, res, next){
-        try {
-            const {title, description, cat_id} = req.body
-            const user_id = req.headers.authorization;
+        try{
+            const {title, description, city, state, cat_id} = req.body
+            const user_id = req.headers.authorization
 
             await connection('advertisements').insert({
-                title,
-                description,
-                user_id,
-                cat_id
-            })
-            
+                    title,
+                    description,
+                    city,
+                    state,
+                    user_id,
+                    cat_id
+                });
+
             return res.status(201).send()
-        } catch (error) {
+        } catch(error){
             next(error)
         }
     },
