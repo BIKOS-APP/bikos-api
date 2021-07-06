@@ -7,6 +7,7 @@ const UserProfileController = require('./controllers/UserProfileController');
 const AdsUserProfileController = require('./controllers/AdsUserProfileController');
 const CandidateController = require('./controllers/CandidateController');
 const ProviderController = require('./controllers/ProviderController');
+const CategoryController = require('./controllers/CategoryController');
 
 const routes = express.Router();
 
@@ -52,6 +53,8 @@ routes.get('/announcements/:ads_id/candidates', CandidateController.index)
 
 // //retorna todos usuarios
 routes.get('/users', UserController.index);
+
+routes.get('/categories', CategoryController.index);
 
 
 module.exports = routes;
