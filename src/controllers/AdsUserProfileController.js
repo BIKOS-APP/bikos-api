@@ -2,22 +2,21 @@ const connection = require('../database/connection')
 
 module.exports = {
     async index(req, res){
-        const {announcer} = req.params;
+        const announcer = req.headers.authorization;
     
         const advertisement = await connection('advertisements')
-        .where({announcer})
-        .join('users','users.id', '=', 'advertisements.user_id')
-        .join('categories','categories.id', '=', 'advertisements.cat_id')
-        .select([
-            'advertisements.id',
-            'advertisements.title',
-            'advertisements.description',
-            'advertisements.city',
-            'advertisements.state',
-            'advertisements.available',
-            'advertisements.created_at',
-            'categories.category'
-        ]);
+            .where({announcer})
+            .join('categories','categories.id', '=', 'advertisements.cat_id')
+            .select([
+                'advertisements.id',
+                'advertisements.title',
+                'advertisements.description',
+                'advertisements.city',
+                'advertisements.state',
+                'advertisements.available',
+                'advertisements.created_at',
+	            'categories.category'
+            ]);
 
         return res.json(advertisement);
     },
@@ -42,24 +41,25 @@ module.exports = {
         }
     },
 
-    async delete(req, res){
-       
-        const announcer = req.headers.authorization;
-        const {id} = req.params;
-
-        const advertisement = await connection('advertisements')
-        .where({id})
-        .select('user_id')
-        .first();
-
-        if (advertisement.announcer != announcer) {
-            return res.status(401).json({error: 'Operation not permitted.'})
+    async delete(request, response) {
+        const { id } = request.params;
+        const announcer = request.headers.authorization;
+    
+        const ad = await connection('advertisements')
+          .where('id', id)
+          .select('announcer')
+          .first();
+    
+        if (ad.announcer !== announcer) {
+          return response.status(401).json({ error: 'Operation not permitted.' });
         }
 
+        await connection('candidates').where('ads_id', id).delete();
+    
         await connection('advertisements').where('id', id).delete();
-
-        return res.status(204).send();
-    },
+    
+        return response.status(204).send();
+      },
 
     async update(req, res, next){
         try {

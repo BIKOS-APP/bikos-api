@@ -45,7 +45,7 @@ module.exports = {
     
         const advertisement = await connection('advertisements')
         .where({announcer}).andWhere('advertisements.available', true)
-        .join('users','users.id', '=', 'advertisements.user_id')
+        .join('users','users.id', '=', 'advertisements.announcer')
         .join('categories','categories.id', '=', 'advertisements.cat_id')
         .select([
             'advertisements.id',
@@ -64,7 +64,7 @@ module.exports = {
     async findByCategory(req, res){
         const {cat_id} = req.params;
         const advertisement = await connection('advertisements')
-        .join('users','users.id', '=', 'advertisements.user_id')
+        .join('users','users.id', '=', 'advertisements.announcer')
         .join('categories','categories.id', '=', 'advertisements.cat_id')
         .where({cat_id}).andWhere('advertisements.available', true)
         .select([
@@ -86,7 +86,7 @@ module.exports = {
         const {city} = req.query;
 
         const advertisement = await connection('advertisements')
-        .join('users','users.id', '=', 'advertisements.user_id')
+        .join('users','users.id', '=', 'advertisements.announcer')
         .join('categories','categories.id', '=', 'advertisements.cat_id')
         .where({city}).andWhere('advertisements.available', true)
         .select([

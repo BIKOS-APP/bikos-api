@@ -3,13 +3,13 @@ const connection = require('../database/connection');
 
 module.exports = {
     
-    async index(req, res){
+    async find(req, res){
 
-        const {id} = req.params;
+        const id = req.headers.authorization;
 
         const user = await connection('users')
-        .where('id', id)
-        .select('*');
+        .select('*')
+        .where('id', id);
 
         if (!user) {
             return res.status(400).json({error: 'No user found with this ID'})
