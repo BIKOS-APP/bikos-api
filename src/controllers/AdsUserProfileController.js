@@ -13,6 +13,7 @@ module.exports = {
                 'advertisements.description',
                 'advertisements.city',
                 'advertisements.state',
+                'advertisements.district',
                 'advertisements.available',
                 'advertisements.created_at',
 	            'categories.category'
@@ -23,7 +24,7 @@ module.exports = {
 
     async create(req, res, next){
         try{
-            const {title, description, city, state, cat_id} = req.body
+            const {title, description, city, state, district, cat_id} = req.body
             const announcer = req.headers.authorization
 
             await connection('advertisements').insert({
@@ -31,6 +32,7 @@ module.exports = {
                     description,
                     city,
                     state,
+                    district,
                     announcer,
                     cat_id
                 });
@@ -64,11 +66,11 @@ module.exports = {
     async update(req, res, next){
         try {
             const announcer = req.headers.authorization;
-            const {title, description, job_id} = req.body
+            const {title, description, city, state, district, job_id} = req.body
             const { id } = req.params
             
             await connection('advertisements')
-            .update({ title, description, announcer, job_id })
+            .update({ title, description, city, state, district, announcer, job_id })
             .where({ id })
 
             return res.send()

@@ -22,6 +22,7 @@ exports.up = function(knex) {
         table.timestamp('created_at').defaultTo(knex.fn.now());
         table.string('city').notNullable();
         table.string('state').notNullable();
+        table.string('district').notNullable();
         table.string('announcer').notNullable();
         table.foreign('announcer').references('id').inTable('users');
         table.string('provider');
