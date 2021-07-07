@@ -51,8 +51,6 @@ module.exports = {
           .where('id', id)
           .select('announcer')
           .first();
-        console.log(ad.announcer)
-        console.log(announcer)
         if (ad.announcer !== announcer) {
           return response.status(401).json({ error: 'Operation not permitted.' });
         }

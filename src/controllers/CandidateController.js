@@ -8,8 +8,7 @@ module.exports = {
         try {
             const user_id = req.headers.authorization;
             const {ads_id} = req.params;
-            
-            console.log(req.headers)
+  
             await connection('candidates').insert({
                 ads_id,
                 user_id
@@ -30,6 +29,7 @@ module.exports = {
             .where({ads_id})
             .select([
                 'users.name',
+                'users.whatsapp',
                 'candidates.application_date'
             ]);
         
