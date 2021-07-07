@@ -8,10 +8,11 @@ module.exports = {
         try {
             const user_id = req.headers.authorization;
             const {ads_id} = req.params;
-
+            
+            console.log(req.headers)
             await connection('candidates').insert({
-                user_id,
-                ads_id    
+                ads_id,
+                user_id
             });
 
             return res.status(201).send()
